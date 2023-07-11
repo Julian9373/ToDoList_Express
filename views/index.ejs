@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>ToDo list</title>
+</head>
+<body>
+    <div class="container">
+        <h1>ToDo list</h1>
+        <form action="/" method="POST" autocomplete="off">
+            <input type="text" placeholder="Add todos..." name="todoValue" required>
+            <button type="submit">Add</button>
+        </form>
+
+        <% if(data) { %>
+            <% data.forEach(todoValue => {%>
+                <div class="todo-container">
+                    <div class="todo-value"><%= todoValue.todo %> </div>
+                    <div>
+                        <a class="todo-delete <%= todoValue.id %>">Delete</a>
+                    </div>
+
+                    <form action="/<%= todoValue.id %>" method="POST" class="todo-update-form">
+                        <input class="update-list"type="text" name="todoValue" placeholder="Update ToDo..." required>
+                        <button class="todo-update" type="submit">Update</button>
+                    </form>
+                    </div>
+
+                </div>
+           <% })%>
+      <%  } %>
+    </div>
+
+    <script>
+        const deleteButton = document.querySelectorAll(".todo-delete")
+
+        deleteButton.forEach((button, i) => {
+            button.addEventListener("click", () => {
+                const endPoint = `/${button.classList[1]}`
+                fetch(endPoint, {
+                    method: "DELETE"
+                })
+                window.location.href = "/"
+            })
+        })
+    </script>
+
+    
+</body>
+</html>
